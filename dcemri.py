@@ -155,9 +155,14 @@ def fit_tofts_model(Ct, Cp, t, idxs=None, extended=False,
     if idxs is None:
         idxs = range(N)
 
+    #Remove NaN from image
+    Ct = numpy.nan_to_num(Ct)
+
     # choose model and initialize fit parameters with reasonable values
     if extended:  # add vp if using Extended Tofts
         print 'using Extended Tofts-Kety'
+	vp = zeros(N)
+        vp_cov= zeros(N)
         fit_func = lambda t, Kt, ve, vp: \
                     ext_tofts_integral(t, Cp, Kt=Kt, ve=ve, vp=vp)
         coef0 = [0.01, 0.01, 0.01]
@@ -165,8 +170,6 @@ def fit_tofts_model(Ct, Cp, t, idxs=None, extended=False,
         pcov_default = ones((3,3))
     else:
         print 'using Standard Tofts-Kety'
-        vp = zeros(N)
-        vp_cov= zeros(N)
         fit_func = lambda t, Kt, ve: tofts_integral(t, Cp, Kt=Kt, ve=ve)
         coef0 = [0.01, 0.01]
         popt_default = [-1,-1]
