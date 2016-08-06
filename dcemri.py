@@ -22,7 +22,7 @@ import time
 from pylab import *
 from scipy.integrate import cumtrapz, simps
 from scipy.optimize import curve_fit
-
+import numpy
 
 def status_check(k, N, tstart, nupdates=10):
     increment = int(N/nupdates)
